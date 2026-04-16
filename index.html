@@ -413,23 +413,23 @@
 
   /* ── DATA ── */
   const ITINERARY = [
-    { date:"July 9", title:"Arrival Day", emoji:"✈️", events:[
+    { date:"July 9", title:"Bienvenidos a Cabo!", emoji:"✈️", packing:"Comfy sweats, Eileen will bring t-shirts", events:[
       {time:"Morning",desc:"Arrive in Los Cabos — update Eileen with your arrival time"},
       {time:"Evening",desc:"Chef's dinner at the villa"},
       {time:"Night",desc:"Pajama party! Bring comfy sweats, Eileen will bring t-shirts"}
     ]},
-    { date:"July 10", title:"Boat Day", emoji:"⛵", events:[
+    { date:"July 10", title:"Wet & Wild", emoji:"⛵", packing:"Cowboy chic for the night out", events:[
       {time:"Morning",desc:"Light bite at home"},
       {time:"Daytime",desc:"Catamaran day — lunch on the boat. Wear your swimsuit!"},
       {time:"Afternoon",desc:"Home for naps & showers"},
       {time:"Evening",desc:"Dinner and dancing in town"}
     ]},
-    { date:"July 11", title:"Relaxation & Celebration", emoji:"🧘‍♀️", events:[
+    { date:"July 11", title:"Euphoria", emoji:"🧘‍♀️", packing:"Sequins, glitter, metallics, vibrant colors for the night out", events:[
       {time:"Morning",desc:"Sound bath experience"},
       {time:"Daytime",desc:"Pool day at the villa with bartender services"},
       {time:"Evening",desc:"Dinner in town"}
     ]},
-    { date:"July 12", title:"Departure", emoji:"💛", events:[
+    { date:"July 12", title:"Departure", emoji:"💛", packing:"", events:[
       {time:"Morning",desc:"Pack up & fly home"}
     ]}
   ];
@@ -451,6 +451,11 @@
             <p class="itin-desc">${ev.desc}</p>
           </div>
         </div>`).join('');
+      var packHTML = day.packing ? `
+          <div style="margin-top:4px;padding:14px 28px;background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(245,230,224,0.15));border-top:1px solid rgba(201,169,110,0.1);display:flex;align-items:center;gap:10px;border-radius:0 0 16px 16px">
+            <span style="font-size:16px">👗</span>
+            <p style="font-size:13px;color:#998570"><strong style="color:#B8963E;letter-spacing:0.5px">Suggested Packing:</strong> ${day.packing}</p>
+          </div>` : '';
       c.innerHTML += `
         <div class="card">
           <div class="itin-header">
@@ -458,6 +463,7 @@
             <div><p class="itin-date">${day.date}</p><h3 class="itin-day-title">${day.title}</h3></div>
           </div>
           <div class="itin-events">${evHTML}</div>
+          ${packHTML}
         </div>`;
     });
   })();
