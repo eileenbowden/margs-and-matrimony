@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margs & Matrimony — Angie's Bachelorette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A96E;
+    --gold-dark: #B8963E;
+    --gold-light: #D4B87A;
+    --blush: #FAF4EE;
+    --cream: #FFFBF7;
+    --text: #3a3a3a;
+    --text-muted: #777;
+    --text-subtle: #998570;
+    --border: #E8DDD0;
+    --white: #fff;
+  }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .fade-up { animation: fadeUp 0.9s ease-out both; opacity: 0; }
+  .fade-in { animation: fadeIn 1s ease-out both; opacity: 0; }
+  .d1 { animation-delay: .15s } .d2 { animation-delay: .3s } .d3 { animation-delay: .45s }
+  .d4 { animation-delay: .6s } .d5 { animation-delay: .75s }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,251,247,0.88); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,169,110,0.1); padding: 12px 0;
+  }
+  .nav-inner { display: flex; justify-content: center; gap: 8px; max-width: 600; margin: 0 auto; }
+  .nav-link {
+    cursor: pointer; padding: 8px 16px; border-radius: 24px; transition: all .3s;
+    font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+    border: none; background: none; color: var(--text); font-family: inherit;
+  }
+  .nav-link:hover, .nav-link.active { background: rgba(201,169,110,0.13); color: var(--gold-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(201,169,110,0.08) 0%, transparent 70%);
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,210,190,0.2) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+  }
+  .hero-orb.a { top: 10%; left: 8%; width: 200px; height: 200px; }
+  .hero-orb.b { bottom: 15%; right: 10%; width: 160px; height: 160px; animation-delay: 1s; animation-duration: 8s;
+    background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 70%); }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-tag { font-size: 13px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 24px; }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 300;
+    line-height: 1.05; color: var(--text); margin-bottom: 16px;
+  }
+  .hero-amp {
+    font-style: italic; font-weight: 500;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    background-size: 200% auto; animation: shimmer 4s linear infinite;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-for { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--text-subtle); margin-bottom: 8px; }
+  .hero-name { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--text); margin-bottom: 32px; }
+  .hero-meta { display: flex; gap: 32px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+  .hero-meta-item { text-align: center; }
+  .hero-meta-label { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .hero-meta-value { font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-top: 4px; }
+  .hero-divider { width: 1px; height: 36px; background: linear-gradient(to bottom, transparent, var(--gold), transparent); }
+  .hero-scroll { position: absolute; bottom: 32px; animation: float 2s ease-in-out infinite; }
+
+  /* ── BUTTONS ── */
+  .gold-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 50%, var(--gold-light) 100%);
+    color: #fff; border: none; padding: 14px 40px; border-radius: 32px;
+    font-family: 'Nunito Sans', sans-serif; font-size: 14px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    transition: all .3s; box-shadow: 0 4px 20px rgba(201,169,110,0.3);
+  }
+  .gold-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(201,169,110,0.45); }
+  .gold-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .gold-btn.full { width: 100%; margin-top: 8px; }
+
+  /* ── SECTIONS ── */
+  .section { padding: 100px 24px; max-width: 900px; margin: 0 auto; }
+  .section.wide { max-width: none; background: linear-gradient(180deg, var(--cream) 0%, var(--blush) 50%, var(--cream) 100%); }
+  .section.wide > .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-tag { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 8px; font-weight: 600; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 42px; color: var(--text); text-align: center; margin-bottom: 48px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white); border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04); border: 1px solid rgba(201,169,110,0.12);
+  }
+
+  /* ── ITINERARY ── */
+  .itin-stack { display: flex; flex-direction: column; gap: 28px; }
+  .itin-header {
+    background: linear-gradient(135deg, rgba(201,169,110,0.08) 0%, rgba(245,230,224,0.3) 100%);
+    padding: 24px 28px; display: flex; align-items: center; gap: 16;
+    border-bottom: 1px solid rgba(201,169,110,0.1); border-radius: 16px 16px 0 0;
+  }
+  .itin-emoji { font-size: 28px; }
+  .itin-date { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .itin-day-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--text); }
+  .itin-events { padding: 20px 28px; }
+  .itin-event { display: flex; align-items: flex-start; gap: 16; padding: 12px 0; border-bottom: 1px solid rgba(201,169,110,0.06); }
+  .itin-event:last-child { border-bottom: none; }
+  .itin-dot-col { display: flex; flex-direction: column; align-items: center; gap: 4; min-width: 14px; padding-top: 5px; }
+  .itin-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: 3px solid var(--cream); box-shadow: 0 0 0 2px var(--gold); flex-shrink: 0;
+  }
+  .itin-line { width: 1.5px; height: 24px; background: linear-gradient(to bottom, var(--gold), transparent); }
+  .itin-time { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 2px; }
+  .itin-desc { font-size: 15px; line-height: 1.6; color: #555; }
+
+  /* ── VILLA ── */
+  .villa-intro { text-align: center; max-width: 600px; margin: 0 auto 48px; font-size: 15px; line-height: 1.8; color: var(--text-muted); }
+  .villa-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 240px 240px;
+    gap: 12px; border-radius: 20px; overflow: hidden;
+  }
+  .villa-img { background-size: cover; background-position: center; position: relative; }
+  .villa-img.main { grid-row: 1 / 3; }
+  .villa-badge {
+    position: absolute; bottom: 20px; left: 20px; background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px); padding: 10px 18px; border-radius: 10px;
+  }
+  .villa-badge-title { font-size: 12px; font-weight: 600; color: var(--gold); letter-spacing: 1px; }
+  .villa-badge-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .villa-amenities { display: flex; justify-content: center; gap: 48px; margin-top: 40px; flex-wrap: wrap; }
+  .villa-amenity { text-align: center; }
+  .villa-amenity-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+  .villa-amenity-label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-subtle); font-weight: 600; }
+
+  /* ── FORM ── */
+  .form-wrap { max-width: 580px; margin: 0 auto; }
+  .form-card { padding: 40px 36px; }
+  .form-stack { display: flex; flex-direction: column; gap: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label.field-label {
+    display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-subtle); font-weight: 600; margin-bottom: 6px;
+  }
+  .input-field {
+    width: 100%; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: 12px;
+    font-family: 'Nunito Sans', sans-serif; font-size: 14px; background: #fff;
+    color: var(--text); transition: border-color .3s, box-shadow .3s; outline: none;
+  }
+  .input-field:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,169,110,0.12); }
+  .input-field::placeholder { color: #bbb; }
+  select.input-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A96E' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+  }
+  .toggle-row { display: flex; gap: 12px; }
+  .toggle-btn {
+    flex: 1; padding: 14px; border-radius: 12px; border: 1.5px solid var(--border);
+    background: var(--white); cursor: pointer; font-family: inherit; font-size: 14px;
+    color: var(--text); transition: all .3s;
+  }
+  .toggle-btn.selected { border: 2px solid var(--gold); background: rgba(201,169,110,0.06); }
+  .size-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .size-btn {
+    padding: 10px 18px; border-radius: 10px; border: 1.5px solid var(--border);
+    background: var(--white); cursor: pointer; font-family: inherit; font-size: 13px;
+    font-weight: 600; color: var(--text-muted); transition: all .2s; letter-spacing: .5px;
+  }
+  .size-btn.selected {
+    border: 2px solid var(--gold); color: var(--gold-dark);
+    background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.05));
+  }
+  .form-divider { display: flex; align-items: center; gap: 16px; margin: 4px 0; }
+  .form-divider-line { flex: 1; height: 1px; }
+  .form-divider-line.left { background: linear-gradient(to right, transparent, var(--border)); }
+  .form-divider-line.right { background: linear-gradient(to left, transparent, var(--border)); }
+  .form-divider-text { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; white-space: nowrap; }
+  .flight-label { font-size: 13px; font-weight: 600; color: var(--text-subtle); margin-bottom: 10px; }
+
+  /* ── SUCCESS ── */
+  .success { padding: 48px 36px; text-align: center; }
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+  }
+  .success h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+  .success p { color: #888; font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
+
+  /* ── FOOTER ── */
+  footer { text-align: center; padding: 48px 24px 32px; border-top: 1px solid rgba(201,169,110,0.1); }
+  .footer-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+  .footer-sub { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 4px; }
+  .footer-love { font-size: 12px; color: #bbb; margin-top: 16px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .hero-title { font-size: 48px !important; }
+    .hero-for { font-size: 16px !important; }
+    .section-title { font-size: 32px; }
+    .nav-inner { gap: 4px; }
+    .nav-link { padding: 6px 10px; font-size: 11px; letter-spacing: 1px; }
+    .villa-grid { grid-template-columns: 1fr !important; grid-template-rows: 240px 180px 180px 180px 180px !important; }
+    .villa-grid > div:first-child { grid-row: auto !important; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 28px 20px; }
+    .villa-amenities { gap: 24px; }
+    .hero-meta { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="nav-link active" onclick="scrollToSection('home')">Home</button>
+    <button class="nav-link" onclick="scrollToSection('itinerary')">Itinerary</button>
+    <button class="nav-link" onclick="scrollToSection('villa')">The Villa</button>
+    <button class="nav-link" onclick="scrollToSection('tshirt')">T-Shirts</button>
+    <button class="nav-link" onclick="scrollToSection('flights')">Flights</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-orb a"></div>
+  <div class="hero-orb b"></div>
+  <div class="hero-content">
+    <p class="hero-tag fade-up">You're Invited to</p>
+    <h1 class="hero-title fade-up d1">Margs<br><span class="hero-amp">&</span><br>Matrimony</h1>
+    <p class="hero-for fade-up d2">A Bachelorette Celebration for</p>
+    <p class="hero-name fade-up d3">Angie</p>
+    <div class="hero-meta fade-up d4">
+      <div class="hero-meta-item">
+        <p class="hero-meta-label">When</p>
+        <p class="hero-meta-value">July 9–12, 2026</p>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-meta-item">
+        <p class="hero-meta-label">Where</p>
+        <p class="hero-meta-value">Los Cabos, Mexico</p>
+      </div>
+    </div>
+    <button class="gold-btn fade-up d5" onclick="scrollToSection('tshirt')">Get Started</button>
+  </div>
+  <div class="hero-scroll">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="1.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="section" id="itinerary">
+  <p class="section-tag">The Weekend</p>
+  <h2 class="section-title">Itinerary</h2>
+  <div class="itin-stack" id="itin-container"></div>
+</section>
+
+<!-- VILLA -->
+<section class="section wide" id="villa">
+  <div class="section-inner">
+    <p class="section-tag">Our Home Base</p>
+    <h2 class="section-title">Villa Besame</h2>
+    <p class="villa-intro">A private villa in Los Cabos with breathtaking ocean views.</p>
+    <div class="villa-grid" style="grid-template-columns:2fr 1fr 1fr;grid-template-rows:240px 240px">
+      <div class="villa-img" style="grid-row:1/3;background-image:url('villa-1.png')">
+        <div class="villa-badge">
+          <p class="villa-badge-title">VILLA BESAME</p>
+        </div>
+      </div>
+      <div class="villa-img" style="background-image:url('villa-2.png')"></div>
+      <div class="villa-img" style="background-image:url('villa-4.png')"></div>
+      <div class="villa-img" style="background-image:url('villa-5.png')"></div>
+      <div class="villa-img" style="background-image:url('villa-3.png')"></div>
+    </div>
+    <div class="villa-amenities">
+      <div class="villa-amenity"><span class="villa-amenity-icon">🏊‍♀️</span><p class="villa-amenity-label">Infinity Pool</p></div>
+      <div class="villa-amenity"><span class="villa-amenity-icon">🌊</span><p class="villa-amenity-label">Ocean Views</p></div>
+      <div class="villa-amenity"><span class="villa-amenity-icon">🛏️</span><p class="villa-amenity-label">4 Bedrooms</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- T-SHIRT SIZE -->
+<section class="section wide" id="tshirt">
+  <div class="section-inner">
+    <p class="section-tag">What's Your Size?</p>
+    <h2 class="section-title">T-Shirts 👕</h2>
+    <p style="text-align:center;max-width:480px;margin:0 auto 40px;font-size:15px;line-height:1.8;color:#777;">Eileen is bringing matching t-shirts for the weekend! Select your size below.</p>
+    <div class="form-wrap">
+      <div class="card form-card" id="tshirt-form">
+        <div class="form-stack">
+          <div>
+            <label class="field-label">Your Name *</label>
+            <input class="input-field" id="ts-name" placeholder="Your name">
+          </div>
+          <div>
+            <label class="field-label">Select Your Size *</label>
+            <div class="size-row" id="size-row"></div>
+          </div>
+          <button class="gold-btn full" id="ts-submit-btn" onclick="submitTshirt()" disabled>Submit Size</button>
+        </div>
+      </div>
+      <div class="card success fade-in" id="tshirt-success" style="display:none">
+        <div class="success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Size Saved!</h3>
+        <p id="ts-success-msg"></p>
+        <button class="gold-btn" onclick="resetTshirt()">Change Size</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLIGHT INFO -->
+<section class="section" id="flights">
+  <div class="form-wrap">
+    <p class="section-tag">Getting There & Back</p>
+    <h2 class="section-title">Flight Info ✈️</h2>
+    <p style="text-align:center;max-width:520px;margin:0 auto 40px;font-size:15px;line-height:1.8;color:#777;">Share your flight details so we can coordinate airport pickups and keep track of arrivals.</p>
+
+    <div class="card form-card" id="flight-form">
+      <div class="form-stack">
+        <div>
+          <label class="field-label">Your Name *</label>
+          <input class="input-field" id="fl-name" placeholder="Your name">
+        </div>
+
+        <div class="form-divider">
+          <div class="form-divider-line left"></div>
+          <span class="form-divider-text">Arrival</span>
+          <div class="form-divider-line right"></div>
+        </div>
+
+        <div class="form-row">
+          <div><label class="field-label">Airline</label><input class="input-field" id="f-airline" placeholder="e.g. Southwest"></div>
+          <div><label class="field-label">Flight Number</label><input class="input-field" id="f-flight" placeholder="e.g. WN1234"></div>
+          <div><label class="field-label">Arrival Date</label><input class="input-field" id="f-arr-date" type="date"></div>
+          <div><label class="field-label">Arrival Time</label><input class="input-field" id="f-arr-time" type="time"></div>
+        </div>
+
+        <div class="form-divider">
+          <div class="form-divider-line left"></div>
+          <span class="form-divider-text">Departure</span>
+          <div class="form-divider-line right"></div>
+        </div>
+
+        <div class="form-row">
+          <div><label class="field-label">Airline</label><input class="input-field" id="f-dep-airline" placeholder="e.g. Southwest"></div>
+          <div><label class="field-label">Flight Number</label><input class="input-field" id="f-dep-flight" placeholder="e.g. WN5678"></div>
+          <div><label class="field-label">Departure Date</label><input class="input-field" id="f-dep-date" type="date"></div>
+          <div><label class="field-label">Departure Time</label><input class="input-field" id="f-dep-time" type="time"></div>
+        </div>
+
+        <button class="gold-btn full" id="fl-submit-btn" onclick="submitFlight()" disabled>Submit Flight Info</button>
+      </div>
+    </div>
+
+    <div class="card success fade-in" id="flight-success" style="display:none">
+      <div class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>Flight Info Saved!</h3>
+      <p id="fl-success-msg"></p>
+      <button class="gold-btn" onclick="resetFlight()">Update Flight Info</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-title">Margs & Matrimony</p>
+  <p class="footer-sub">Los Cabos · July 2026</p>
+  <p class="footer-love">Made with 💛 for Angie</p>
+</footer>
+
+<script>
+  /* ═══════════════════════════════════════════════════════════════
+     SETUP: Paste your Google Apps Script Web App URL below.
+     See the setup guide (google-apps-script-setup.txt) for steps.
+     ═══════════════════════════════════════════════════════════════ */
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-_2KYJCOuBZ8jU6QKTE3uJ9mCWJTsI0KDyQ5gHAVTM1tZE4CVSdeO8YY8Y1NF2YWcNQ/exec';
+
+  /* ── DATA ── */
+  const ITINERARY = [
+    { date:"July 9", title:"Bienvenidos a Cabo!", emoji:"✈️", packing:"Comfy sweats, Eileen will bring t-shirts", events:[
+      {time:"Morning",desc:"Arrive in Los Cabos — update Eileen with your arrival time"},
+      {time:"Evening",desc:"Chef's dinner at the villa"},
+      {time:"Night",desc:"Pajama party!"}
+    ]},
+    { date:"July 10", title:"Wet & Wild", emoji:"⛵", packing:"Cowboy chic for the night out", events:[
+      {time:"Morning",desc:"Light bite at home"},
+      {time:"Daytime",desc:"Catamaran day — lunch on the boat. Wear your swimsuit!"},
+      {time:"Afternoon",desc:"Home for naps & showers"},
+      {time:"Evening",desc:"Dinner and dancing in town"}
+    ]},
+    { date:"July 11", title:"Euphoria", emoji:"🧘‍♀️", packing:"Sequins, glitter, metallics, vibrant colors for the night out", events:[
+      {time:"Morning",desc:"Sound bath experience"},
+      {time:"Daytime",desc:"Pool day at the villa with bartender services"},
+      {time:"Evening",desc:"Dinner in town"}
+    ]},
+    { date:"July 12", title:"Departure", emoji:"💛", packing:"", events:[
+      {time:"Morning",desc:"Pack up & fly home"}
+    ]}
+  ];
+  const SIZES = ["XS","S","M","L","XL","XXL"];
+  let tshirt = null;
+
+  /* ── RENDER ITINERARY ── */
+  (function(){
+    const c = document.getElementById("itin-container");
+    ITINERARY.forEach(day => {
+      let evHTML = day.events.map((ev,i) => `
+        <div class="itin-event">
+          <div class="itin-dot-col">
+            <div class="itin-dot"></div>
+            ${i < day.events.length-1 ? '<div class="itin-line"></div>' : ''}
+          </div>
+          <div>
+            <p class="itin-time">${ev.time}</p>
+            <p class="itin-desc">${ev.desc}</p>
+          </div>
+        </div>`).join('');
+      var packHTML = day.packing ? `
+          <div style="margin-top:4px;padding:14px 28px;background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(245,230,224,0.15));border-top:1px solid rgba(201,169,110,0.1);display:flex;align-items:center;gap:10px;border-radius:0 0 16px 16px">
+            <span style="font-size:16px">👗</span>
+            <p style="font-size:13px;color:#998570"><strong style="color:#B8963E;letter-spacing:0.5px">Suggested Packing:</strong> ${day.packing}</p>
+          </div>` : '';
+      c.innerHTML += `
+        <div class="card">
+          <div class="itin-header">
+            <span class="itin-emoji">${day.emoji}</span>
+            <div><p class="itin-date">${day.date}</p><h3 class="itin-day-title">${day.title}</h3></div>
+          </div>
+          <div class="itin-events">${evHTML}</div>
+          ${packHTML}
+        </div>`;
+    });
+  })();
+
+  /* ── RENDER SIZE BUTTONS ── */
+  (function(){
+    const r = document.getElementById("size-row");
+    SIZES.forEach(s => {
+      r.innerHTML += `<button class="size-btn" data-size="${s}" onclick="setSize('${s}')">${s}</button>`;
+    });
+  })();
+
+  /* ── NAV ── */
+  const NAV_IDS = ['home','itinerary','villa','tshirt','flights'];
+
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    document.querySelectorAll('.nav-link').forEach((b,i) => {
+      b.classList.toggle('active', NAV_IDS[i] === id);
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    let current = NAV_IDS[0];
+    NAV_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 120) current = id;
+    });
+    document.querySelectorAll('.nav-link').forEach((b,i) => {
+      b.classList.toggle('active', NAV_IDS[i] === current);
+    });
+  });
+
+  /* ── GOOGLE SHEETS SUBMIT HELPER ── */
+  // GET request via image tag — most reliable method for Apps Script
+  function postToSheet(data) {
+    return new Promise((resolve) => {
+      // Build URL with query parameters
+      var params = [];
+      Object.keys(data).forEach(function(key) {
+        params.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key] || ''));
+      });
+      var url = GOOGLE_SCRIPT_URL + '?' + params.join('&');
+
+      // Debug: log the full URL being sent
+      console.log('Sending to Google Sheets:', url);
+
+      // Use an image tag to make the GET request (no CORS issues)
+      var img = new Image();
+      img.onload = function() { resolve(true); };
+      img.onerror = function() { resolve(true); }; // Apps Script redirects cause "error" but data still goes through
+      img.src = url;
+
+      // Safety timeout
+      setTimeout(function() { resolve(true); }, 5000);
+    });
+  }
+
+  function setButtonLoading(btn, loading) {
+    if (loading) {
+      btn.dataset.origText = btn.textContent;
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+    } else {
+      btn.textContent = btn.dataset.origText || 'Submit';
+      btn.disabled = false;
+    }
+  }
+
+  /* ── T-SHIRT FORM ── */
+  function setSize(s) {
+    tshirt = s;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('selected', b.dataset.size === s));
+    checkTshirtValid();
+  }
+
+  function checkTshirtValid() {
+    const name = document.getElementById('ts-name').value.trim();
+    document.getElementById('ts-submit-btn').disabled = !(name && tshirt);
+  }
+  document.getElementById('ts-name').addEventListener('input', checkTshirtValid);
+
+  async function submitTshirt() {
+    const btn = document.getElementById('ts-submit-btn');
+    const name = document.getElementById('ts-name').value.trim();
+    setButtonLoading(btn, true);
+
+    const ok = await postToSheet({
+      sheet: 'TShirts',
+      name: name,
+      size: tshirt,
+      submittedAt: new Date().toLocaleString()
+    });
+
+    if (ok) {
+      document.getElementById('tshirt-form').style.display = 'none';
+      document.getElementById('tshirt-success').style.display = 'block';
+      document.getElementById('ts-success-msg').textContent = `Got it, ${name}! You're down for a size ${tshirt}.`;
+    } else {
+      setButtonLoading(btn, false);
+    }
+  }
+
+  function resetTshirt() {
+    tshirt = null;
+    document.getElementById('tshirt-form').style.display = 'block';
+    document.getElementById('tshirt-success').style.display = 'none';
+    document.getElementById('ts-name').value = '';
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('ts-submit-btn').disabled = true;
+  }
+
+  /* ── FLIGHT FORM ── */
+  function checkFlightValid() {
+    const name = document.getElementById('fl-name').value.trim();
+    document.getElementById('fl-submit-btn').disabled = !name;
+  }
+  document.getElementById('fl-name').addEventListener('input', checkFlightValid);
+
+  async function submitFlight() {
+    const btn = document.getElementById('fl-submit-btn');
+    const name = document.getElementById('fl-name').value.trim();
+    setButtonLoading(btn, true);
+
+    // Read all field values
+    var aDate = document.getElementById('f-arr-date').value || '';
+    var aTime = document.getElementById('f-arr-time').value || '';
+    var dDate = document.getElementById('f-dep-date').value || '';
+    var dTime = document.getElementById('f-dep-time').value || '';
+
+    // Debug: check browser console (F12) if fields are blank
+    console.log('Arrival date value:', aDate);
+    console.log('Arrival time value:', aTime);
+    console.log('Departure date value:', dDate);
+    console.log('Departure time value:', dTime);
+
+    const ok = await postToSheet({
+      sheet: 'Flights',
+      name: name,
+      arrAirline: document.getElementById('f-airline').value.trim(),
+      arrFlightNum: document.getElementById('f-flight').value.trim(),
+      arrDate: aDate,
+      arrTime: aTime,
+      depAirline: document.getElementById('f-dep-airline').value.trim(),
+      depFlightNum: document.getElementById('f-dep-flight').value.trim(),
+      depDate: dDate,
+      depTime: dTime,
+      submittedAt: new Date().toLocaleString()
+    });
+
+    if (ok) {
+      document.getElementById('flight-form').style.display = 'none';
+      document.getElementById('flight-success').style.display = 'block';
+      document.getElementById('fl-success-msg').textContent = `Thanks ${name}! Your flight details have been saved.`;
+    } else {
+      setButtonLoading(btn, false);
+    }
+  }
+
+  function resetFlight() {
+    document.getElementById('flight-form').style.display = 'block';
+    document.getElementById('flight-success').style.display = 'none';
+    document.querySelectorAll('#flight-form input').forEach(i => i.value = '');
+    document.getElementById('fl-submit-btn').disabled = true;
+  }
+</script>
+</body>
+</html>
